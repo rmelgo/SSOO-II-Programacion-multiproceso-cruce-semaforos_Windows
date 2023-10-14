@@ -35,21 +35,21 @@ Si los parámetros introducidos no respetan las reglas anteriores, el programa l
 
 El proyecto cuenta con los siguientes ficheros:
 
-- Un fichero llamado ***cruce.c*** que contendrá el código necesario para poner en marcha la infraestructura del cruce, leer y interpretar los argumentos introducidos y crear los peatones y coches correspondientes.
-- Un fichero llamado ***libcruce.a*** el cual se trata de una biblioteca estática de funciones que contendrá una serie de funciones para gestionar la creación y finalización del cruce así como la gestión del valor de los semáforos creación y movimiento de peatones y coches.
-- Un fichero llamado ***cruce.h*** que contiene las cabeceras de las funciones definidas en la biblioteca *libcruce.a* así como una serie de macros que utiliza la biblioteca.
+- Un fichero llamado ***cruce2.cpp*** que contendrá el código necesario para poner en marcha la infraestructura del cruce, leer y interpretar los argumentos introducidos y crear los peatones y coches correspondientes.
+- Un fichero llamado ***cruce2.dll*** el cual se trata de una biblioteca de enlazado dinámico que contendrá una serie de funciones para gestionar la creación y finalización del cruce así como la gestión del valor de los semáforos creación y movimiento de peatones y coches.
+- Un fichero llamado ***cruce2.h*** que contiene las cabeceras de las funciones definidas en la biblioteca *libcruce.a* así como una serie de macros que utiliza la biblioteca.
 
-# - Funciones de la biblioteca estática de funciones ***libcruce.a***
+# - Funciones de la biblioteca de enlazado dinámico ***cruce2.dll***
 
-La biblioteca estática de funciones ***libcruce.a*** cuenta con las siguientes funciones:
+La biblioteca estática de funciones ***cruce2.cpp*** cuenta con las siguientes funciones:
 
-- **int CRUCE_inicio(int ret, int maxProcs, int semAforos, char * zona)**: Esta función deberá ser ejecutada por el proceso principal despues de crear los mecanismos IPC correspodientes y antes de haber creado algún peatón o coche. Esta función recibe los siguientes parámetros:
+- **int CRUCE_gestor_inicio(void)**: Esta función deberá ser ejecutada por el proceso principal al principio del código.
+
+- **int CRUCE_inicio(int ret, int maxProcs)**: Esta función deberá ser ejecutada por el proceso principal despues de crear los mecanismos IPC correspodientes y antes de haber creado algún peatón o coche. Esta función recibe los siguientes parámetros:
   
   - **ret**: Número entero que hace referencia a la velocidad de representación de los peatones y coches en el cruce (segundo argumento pasado en la línea de órdenes).
   - **maxProcs**: Número entero que hace referencia al número máximo de procesos (peatones y coches) que pueden existir de manera simultanea en el cruce (primer argumento pasado en la línea de órdenes).
-  - **semAforos**: Número entero que hace referencia al identificador de un conjunto o array de semáforos que se deberá haber creado previamente donde el primer semáforo será utilizado por la biblioteca y el resto pueden ser utilizados para realizar tareas de sincronización.
-  - **zona**: Puntero a una zona de memoria compartida que se deberá haber creado previamente donde los primeros 256 bytes serán utilizados por la biblioteca mientras el resto pueden ser utilizados para realizar tareas de sincronización.
- 
+
 - **int CRUCE_pon_semAforo(int sem, int color)**: Esta función pone el semáforo pasado en el primer parámetro al color indicado en el segundo parámetro. Esta función recibe los siguientes parámetros:
 
   - **sem**: Número entero que hace referencia a un semáforo del cruce. Este parámetro puede tomar los valores *SEM_P1*, *SEM_P2*, *SEM_C1*, *SEM_C2* dependiendo del semáforo al que se desea cambiar el color.
@@ -65,7 +65,7 @@ Nota: *COCHE* y *PEAToN* son macros definidas en ***cruce.h***.
 
 Nota: *posiciOn* es un tipo de datos definido en ***cruce.h*** y cuenta con dos enteros que hacen referencia a la coordenada x y a la coordenada y.
 
-- **struct posiciOn CRUCE_inicio_peatOn_ext(struct posiciOn *posNacimiento)**: Cada vez que se crea un nuevo proceso de tipo *PEAToN*, debe llamar a esta función. Esta función devuelve las coordenadas de la posición siguiente que ocupará el peatón a través de un tipo de datos llamado *posiciOn*. Esta función cuenta con un único parámetro en el cual se devolverá por referencia la posición actual que ocupa el peatón a través de un tipo de datos llamado *posiciOn*.
+- **struct posiciOn CRUCE_nuevo_inicio_peatOn(void)**: Cada vez que se crea un nuevo proceso de tipo *PEAToN*, debe llamar a esta función. Esta función devuelve las coordenadas de la posición siguiente que ocupará el peatón a través de un tipo de datos llamado *posiciOn*.
 
 - **struct posiciOn CRUCE_avanzar_coche(struct posiciOn sgte)**: Esta función debe ser llamada por cada coche despues de haber ejecutado ***CRUCE_inicio_coche***. Esta función recibe como parámetro la posición a la que desea ir el coche y devuelve la nueva posición siguiente que ocupará el coche.
 
