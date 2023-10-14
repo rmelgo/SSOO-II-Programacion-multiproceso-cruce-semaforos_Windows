@@ -6,7 +6,7 @@
 
 Proyecto realizado en la asignatura de SSOO II del grado de Ingenieria Informática de la Universidad de Salamanca. El enunciado del proyecto se encuentra en el siguiente enlace:  
 
-http://avellano.usal.es/~labssoo/pract209.htm
+http://avellano.usal.es/~labssoo/pract309.htm
   
 El principal objetivo de este proyecto es la realización de un programa en C que simule el tráfico de coches y peatones en un cruce donde cada peatón y cada coche será simulado por un proceso.
 De esta manera, el objetivo es establecer una correcta sincronización y comunicación entre los distintos procesos para que se cumplan las normas de tráfico en el cruce.
@@ -14,11 +14,13 @@ Para ello, se utilizarán distintos mecanismos IPC de comunicación entre proces
 
 # - Comentarios sobre el entorno de ejecución
 
-Para ejecutar este programa, se requerira de una distribución del Sistema Operativo **GNU/Linux**.    
+Para ejecutar este programa, se requerira de una distribución del Sistema Operativo **Windows**.    
 
-Para poder compilar correctamente el programa, se deberá tener instalada una version del compilador gcc o similar. En el caso de no tener gcc, se puede instalar facilmente con el siguiente comando:
+Para poder compilar correctamente el programa, se deberá tener instalada una version del compilador gcc o similar.  
 
-```sudo apt install gcc```
+Se recomienda utilizar alguna herramienta como ***Dev-C++*** o ***Visual Studio*** para la correcta compilación del programa, ya que estas herramientas cuentas con el compilador gcc. Es importante utilizar un compilador de 32 bits, por que en caso contrario el programa no podrá ser ejecutado correctamente. 
+
+Para ejecutar el programa es imprescindible tener una ventana de terminal tenga un tamaño de 80x25 caracteres. En caso contrario, debe cambiarse en el menú de propiedades de la ventana.
 
 # - Parámetros de ejecución
 
@@ -38,6 +40,8 @@ El proyecto cuenta con los siguientes ficheros:
 - Un fichero llamado ***cruce2.cpp*** que contendrá el código necesario para poner en marcha la infraestructura del cruce, leer y interpretar los argumentos introducidos y crear los peatones y coches correspondientes.
 - Un fichero llamado ***cruce2.dll*** el cual se trata de una biblioteca de enlazado dinámico que contendrá una serie de funciones para gestionar la creación y finalización del cruce así como la gestión del valor de los semáforos creación y movimiento de peatones y coches.
 - Un fichero llamado ***cruce2.h*** que contiene las cabeceras de las funciones definidas en la biblioteca *libcruce.a* así como una serie de macros que utiliza la biblioteca.
+
+Adicionalmente se incluirá un fichero ***cruce2.exe*** con el programa ya compilado, por si existen problemas a la hora de generar el ejecutable del programa.
 
 # - Funciones de la biblioteca de enlazado dinámico ***cruce2.dll***
 
@@ -59,11 +63,11 @@ Nota: *SEM_P1*, *SEM_P2*, *SEM_C1*, *SEM_C2*, *ROJO*, *AMARILLO* y *VERDE* son m
 
 - **int CRUCE_nuevo_proceso(void)**: Esta función crea un nuevo proceso que puede ser un coche o un peatón. Esta función devuelve *COCHE* en el caso de que el proceso creado se trate de un coche y *PEAToN* en el caso de que el proceso creado se trate de un peatón.
 
-Nota: *COCHE* y *PEAToN* son macros definidas en ***cruce.h***.
+Nota: *COCHE* y *PEAToN* son macros definidas en ***cruce2.h***.
 
 - **struct posiciOn CRUCE_inicio_coche(void)**: Cada vez que se crea un nuevo proceso de tipo *COCHE*, debe llamar a esta función. Esta función devuelve las coordenadas de la posición siguiente que ocupará el coche a través de un tipo de datos llamado *posiciOn*.
 
-Nota: *posiciOn* es un tipo de datos definido en ***cruce.h*** y cuenta con dos enteros que hacen referencia a la coordenada x y a la coordenada y.
+Nota: *posiciOn* es un tipo de datos definido en ***cruce2.h*** y cuenta con dos enteros que hacen referencia a la coordenada x y a la coordenada y.
 
 - **struct posiciOn CRUCE_nuevo_inicio_peatOn(void)**: Cada vez que se crea un nuevo proceso de tipo *PEAToN*, debe llamar a esta función. Esta función devuelve las coordenadas de la posición siguiente que ocupará el peatón a través de un tipo de datos llamado *posiciOn*.
 
@@ -101,25 +105,13 @@ Para cambiar de una fase a otra, existirá una pequeña fase de transición dond
 
 **Paso 1: Compilar el programa**  
 
-Para ello se debe introducir el siguiente comando:    
-
-```gcc cruce.c libcruce.a -o cruce```
-
-Como la libreria *libcruce.a* esta diseñada para sistemas de 32 bits y no es posible mezclar código de 64 bits con codigo de 32 bits, será necesario incluir una nueva directiva en el comando gcc para que genere codigo en 32 bits compatible con la biblioteca. De esta manera, el comando necesario para compilar el programa es el siguiente:
-
-```gcc -m32 cruce.c libcruce.a -o cruce```
-
-Si se produce algún tipo de error al realizar la compilación será por que el sistema donde se ejecuta el programa no tiene las librerias de 32 bits necesarias. Para incluirlas se deberá ejecutar el siguyiente comando:
-
-```sudo apt-get install gcc-multilib```
-
-Tras ejecutar este comando, se generará un fichero ejecutable llamado *cruce*. Observese como es necesario tanto el fichero *cruce.c* como la biblioteca estática de funciones *libcruce.a* para generar el ejecutable.
+El entorno de desarrollo que se utilice se encargará de compilar el programa utilizando los comandos adecuados.
 
 **Paso 2: Ejecutar el programa**  
 
 Para ello se debe introducir el siguiente comando:    
 
-```./cruce <número-máximo-procesos> <velocidad>```
+```cruce2.exe <número-máximo-procesos> <velocidad>```
 
 Tras ejecutar este comando, el programa se habra ejecutado correctamente, siempre y cuendo se hayan introducido los argumentos correspondientes.
 
@@ -133,10 +125,11 @@ Para finalizar la ejecución del programa simplemente bastara con pulsar las tec
 
 En la siguiente imagen, se muestra un ejemplo del uso y funcionamiento del programa con un límite de 4 procesos y una velocidad de 10:    
 
-![Ejemplo ejecucion 1](https://github.com/rmelgo/SSOO-II-Programacion-multiproceso-cruce-semaforos/assets/145989723/a72bece7-157e-4224-93f6-48f9a7595866)
+![Ejemplo ejecucion 1](https://github.com/rmelgo/SSOO-II-Programacion-multiproceso-cruce-semaforos_Windows/assets/145989723/b0e5ffc9-83c0-47f5-b3bb-049f28dd45ae)
 
 ## Ejecución a velocidad máxima y máximo de 49 procesos
 
 En la siguiente imagen, se muestra un ejemplo del uso y funcionamiento del programa con un límite de 49 procesos y una velocidad de 0:    
 
-![Ejemplo ejecucion 2](https://github.com/rmelgo/SSOO-II-Programacion-multiproceso-cruce-semaforos/assets/145989723/cbe17750-07ad-44d2-91ac-cbf5288b5e08)
+![Ejemplo ejecucion 2](https://github.com/rmelgo/SSOO-II-Programacion-multiproceso-cruce-semaforos_Windows/assets/145989723/af5850d5-b379-45b4-8319-7817548a84f0)
+
