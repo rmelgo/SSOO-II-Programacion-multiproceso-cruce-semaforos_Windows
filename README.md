@@ -33,7 +33,7 @@ Si el segundo argumento es 0, el programa se ejecutará a ***máxima velocidad**
 
 Si los parámetros introducidos no respetan las reglas anteriores, el programa lo detectará, informará al usuario y acabará.
 
-# Comentarios sobre el mateial adjuntado
+# Comentarios sobre el material adjuntado
 
 El proyecto cuenta con los siguientes ficheros:
 
